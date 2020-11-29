@@ -51,6 +51,15 @@ def power():
             response=str(s.recv(24))
             print("Response from the Speakers():", response)
             s.close
+						s.connect((HOST2, PORT2))
+						s.sendall(f"*Z0{x}ON\r".encode())
+						s.close
+						s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+						s.connect((HOST2, PORT2))
+						s.sendall(f"*Z0{x}VOL20\r".encode())
+						response=str(s.recv(24))
+						print("Response from the Speakers():", response)
+						s.close
         if zpwr is False:
             s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
