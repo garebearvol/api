@@ -4,6 +4,7 @@ from flask import jsonify, request
 import socket
 import json
 import time
+import Speaker_control
 
 with open('/home/pi/api/status.json') as f:
   zonestatus = json.load(f)
@@ -40,27 +41,22 @@ def power():
         zpwr=r.get(f'pwr{x}')
         zvol=r.get(f'vol{x}')
         if zpwr is True:
-            s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((HOST2, PORT2))
-            s.sendall(f"*Z0{x}ON\r".encode())
-            s.close
-            response.append(f"Speaker {x} On")
-            time.sleep(1)
+            s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+						s.connect((HOST2, PORT2))
+						s.sendall(f"*Z0{x}ON\r".encode())
+						s.close
+						s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+						s.connect((HOST2, PORT2))
+						s.sendall(f"*Z0{x}VOL20\r".encode())
+						response=str(s.recv(24))
+						print("Response from the Speakers():", response)
+						s.close
         if zpwr is False:
             s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
             s.sendall(f"*Z0{x}OFF\r".encode())
             s.close
             response.append(f"Speaker {x} Off")
-            time.sleep(1)
-        if zvol is not None:
-            vol=int(((100-zvol)/100)*60)
-            print(vol)
-            s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((HOST2, PORT2))
-            s.sendall(f"*Z0{x}VOL{vol}\r".encode())
-            s.close
-            response.append(f"Speaker {x} is at {vol}%")
             time.sleep(1)
         else:
             response.append(f"Speaker {x} Off")
