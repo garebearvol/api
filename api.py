@@ -4,7 +4,6 @@ from flask import jsonify, request
 import socket
 import json
 import time
-import Speaker_control
 
 with open('/home/pi/api/status.json') as f:
   zonestatus = json.load(f)
