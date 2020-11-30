@@ -56,10 +56,7 @@ def power():
             s.connect((HOST2, PORT2))
             s.sendall(f"*Z0{x}OFF\r".encode())
             s.close
-            response.append(f"Speaker {x} Off")
             time.sleep(1)
-        else:
-            response.append(f"Speaker {x} Off")
     return str(response)
             
 
