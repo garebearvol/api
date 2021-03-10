@@ -35,7 +35,7 @@ def power():
     response=[]
     for x in range (1, 7):
         response=[]
-        zpwr=r.get(f'pwr{}'.format(x))
+        zpwr=r.get('pwr{}'.format(x))
         if zpwr is True:
             s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
