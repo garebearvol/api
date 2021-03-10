@@ -30,29 +30,29 @@ def off():
 @app.route("/control", methods=["POST"])
 def power():
     data= request.get_json()
-    def power_change():
-        for x in range (1, 7):
-            zpwr=data.get('pwr{}'.format(x))
-            if zpwr is True:
-                s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((HOST2, PORT2))
-                s.sendall("*Z0{}ON\r".format(x).encode())
-                s.close
-                s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((HOST2, PORT2))
-                s.sendall("*Z0{}VOL20\r".format(x).encode())
-                response=str(s.recv(24))
-                s.close
-                time.sleep(1)
-            if zpwr is False:
-                s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((HOST2, PORT2))
-                s.sendall("*Z0{}OFF\r".format(x).encode())
-                s.close
-                time.sleep(1)
-    thread=Thread(target=power_change)
-    thread.start()
-    return "Started"
+    Thread(target=power_change).start()
+    return jsonify('Response asynchronosly')
+def power_change():
+    data= request.get_json()
+    for x in range (1, 7):
+        zpwr=data.get('pwr{}'.format(x))
+        if zpwr is True:
+            s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((HOST2, PORT2))
+            s.sendall("*Z0{}ON\r".format(x).encode())
+            s.close
+            s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((HOST2, PORT2))
+            s.sendall("*Z0{}VOL20\r".format(x).encode())
+            response=str(s.recv(24))
+            s.close
+            time.sleep(1)
+        if zpwr is False:
+            s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((HOST2, PORT2))
+            s.sendall("*Z0{}OFF\r".format(x).encode())
+            s.close
+            time.sleep(1)
             
 
 api.add_resource(status, '/status/')
