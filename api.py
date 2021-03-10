@@ -50,9 +50,9 @@ def power():
                 s.sendall("*Z0{}OFF\r".format(x).encode())
                 s.close
                 time.sleep(1)
-    thread=threading.Thread(target=power_change, r= request.get_json())
+    thread=Thread(target=power_change, r= request.get_json())
     thread.start()
-    return {"message": "Accepted"}, 202
+    return "Started"
             
 
 api.add_resource(status, '/status/')
