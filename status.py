@@ -1,25 +1,23 @@
-import sched, socket, datetime
+import sched, socket, datetime, json, re, os
 from time import time, sleep
-import json
-import re
 
-with open('/home/pi/api/status.json') as f:
+cwd=os.getcwd()
+with open('{}/status.json'.format(cwd)) as f:
   zonestatus = json.load(f)
 
-
-
+#RS-232 global cache info
 HOST2='192.168.1.115'
 PORT2=4999
 
 def Check_status(Zone):
     s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST2, PORT2))
-    s.sendall(f"*Z0{Zone}CONSR\r".encode())
+    s.sendall("*Z0{}CONSR\r".format(Zone).encode())
     sleep(3)
     response=str(s.recv(60))
     s.close
     print(response)
-    if (f"Z0{Zone}PWRON" in response):
+    if ("Z0{}PWRON".format(Zone) in response):
         zonestatus[f'{Zone}']['pwr']=True
         volresponse=(re.search('VOL-(.*),', response))
         vol=int(volresponse.group(1))
@@ -33,7 +31,7 @@ for x in range(1, 7):
     Check_status(x)
 
 
-with open('/home/pi/api/status.json', 'w') as f:
+with open('{}/status.json'.format(cwd), 'w') as f:
     json.dump(zonestatus, f)
 
 print(zonestatus)
