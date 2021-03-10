@@ -33,7 +33,7 @@ def power():
     def power_change(**kwargs):
         r=kwargs.get('post_data', {})
         for x in range (1, 7):
-            zpwr=r.get('pwr{}'.format(x))
+            zpwr=kwargs.get('pwr{}'.format(x))
             if zpwr is True:
                 s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
                 s.connect((HOST2, PORT2))
@@ -51,7 +51,7 @@ def power():
                 s.sendall("*Z0{}OFF\r".format(x).encode())
                 s.close
                 time.sleep(1)
-    thread=Thread(target=power_change, kwargs={'post_data': data})
+    thread=Thread(target=power_change, kwargs=request.get_json())
     thread.start()
     return "Started"
             
