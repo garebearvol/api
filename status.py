@@ -35,4 +35,3 @@ with open('{}/status.json'.format(cwd), 'w') as f:
     json.dump(zonestatus, f)
 
 print(zonestatus)
-
