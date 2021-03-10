@@ -30,7 +30,8 @@ def off():
 @app.route("/control", methods=["POST"])
 def power():
     data= request.get_json()
-    def power_change(r):
+    def power_change(**kwargs):
+        r=kwargs.get('post_data', {})
         for x in range (1, 7):
             zpwr=r.get('pwr{}'.format(x))
             if zpwr is True:
@@ -50,7 +51,7 @@ def power():
                 s.sendall("*Z0{}OFF\r".format(x).encode())
                 s.close
                 time.sleep(1)
-    thread=Thread(target=power_change, r= request.get_json())
+    thread=Thread(target=power_change, kwargs={'post_data': data})
     thread.start()
     return "Started"
             
