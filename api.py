@@ -6,9 +6,6 @@ import socket
 import json
 import time
 
-with open('/home/pi/api/status.json') as f:
-  zonestatus = json.load(f)
-
 HOST2='192.168.1.115'
 PORT2=4999
 
@@ -38,15 +35,15 @@ def power():
     response=[]
     for x in range (1, 7):
         response=[]
-        zpwr=r.get(f'pwr{x}')
+        zpwr=r.get(f'pwr{}'.format(x))
         if zpwr is True:
             s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
-            s.sendall(f"*Z0{x}ON\r".encode())
+            s.sendall("*Z0{}ON\r".format(x).encode())
             s.close
             s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
-            s.sendall(f"*Z0{x}VOL20\r".encode())
+            s.sendall("*Z0{}VOL20\r".format(x).encode())
             response=str(s.recv(24))
             print("Response from the Speakers():", response)
             s.close
@@ -54,7 +51,7 @@ def power():
         if zpwr is False:
             s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
-            s.sendall(f"*Z0{x}OFF\r".encode())
+            s.sendall("*Z0{}OFF\r".format(x).encode())
             s.close
             time.sleep(1)
     return str(response)
