@@ -30,10 +30,8 @@ def off():
 @app.route("/control", methods=["POST"])
 def power():
     r= request.get_json()
-    response=[]
-    def power_change():
+    def power_change(r):
         for x in range (1, 7):
-            response=[]
             zpwr=r.get('pwr{}'.format(x))
             if zpwr is True:
                 s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
@@ -44,7 +42,6 @@ def power():
                 s.connect((HOST2, PORT2))
                 s.sendall("*Z0{}VOL20\r".format(x).encode())
                 response=str(s.recv(24))
-                print("Response from the Speakers():", response)
                 s.close
                 time.sleep(1)
             if zpwr is False:
@@ -53,7 +50,7 @@ def power():
                 s.sendall("*Z0{}OFF\r".format(x).encode())
                 s.close
                 time.sleep(1)
-    thread=threading.Thread(target=power_change)
+    thread=threading.Thread(target=power_change, r= request.get_json())
     thread.start()
     return {"message": "Accepted"}, 202
             
