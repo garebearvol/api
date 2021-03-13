@@ -30,7 +30,7 @@ def off():
 @app.route("/control", methods=["POST"])
 def power():
     data= request.get_json()
-    Thread(target=power_change, args=data).start()
+    Thread(target=power_change, args=(data,)).start()
     return jsonify('Response asynchronosly')
 def power_change(data):
     for x in range (1, 7):
