@@ -32,7 +32,7 @@ def power():
     data= request.get_json()
     Thread(target=power_change, args=(data,)).start()
     return jsonify('Response asynchronosly')
-def power_change(data):
+def power_change(args):
     for x in range (1, 7):
         zpwr=data.get('pwr{}'.format(x))
         if zpwr is True:
