@@ -51,7 +51,7 @@ def off():
 @app.route("/control", methods=["POST"])
 def power():
     data= request.get_json()
-    Thread(target=power_change, args=(data,)).start()
+    threading.Thread(target=power_change, args=(data,)).start()
     return jsonify('Response asynchronosly')
 
             
