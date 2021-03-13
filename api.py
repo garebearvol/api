@@ -30,10 +30,9 @@ def off():
 @app.route("/control", methods=["POST"])
 def power():
     data= request.get_json()
-    Thread(target=power_change).start()
+    Thread(target=power_change, args=data).start()
     return jsonify('Response asynchronosly')
-def power_change():
-    data= request.get_json()
+def power_change(data):
     for x in range (1, 7):
         zpwr=data.get('pwr{}'.format(x))
         if zpwr is True:
