@@ -34,7 +34,7 @@ def power():
     return jsonify('Response asynchronosly')
 def power_change(args):
     for x in range (1, 7):
-        zpwr=data.get('pwr{}'.format(x))
+        zpwr=args.get('pwr{}'.format(x))
         if zpwr is True:
             s =socket.socket( socket.AF_INET, socket.SOCK_STREAM)
             s.connect((HOST2, PORT2))
