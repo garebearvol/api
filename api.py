@@ -16,11 +16,6 @@ ser = serial.Serial(
     timeout=3,
     inter_byte_timeout=.1
 )
-ser.isOpen()
-ser.write("*Z02CONSR\r")
-response =  ser.readline()
-print(response) 
-ser.close()
 
 def power_change(data):
     for x in range (1, 7):
