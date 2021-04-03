@@ -7,7 +7,7 @@ import socket, json, time, threading, serial
 app = Flask(__name__)
 api = Api(app)
 
-try
+try:
    ser = serial.Serial(
       port='/dev/ttyUSB0',
       baudrate=9600,
