@@ -1,8 +1,8 @@
 #updated 3/9/2021
 from flask import Flask
-from flask_restful import Resource, Api
+#from flask_restful import Resource, Api
 from flask import jsonify, request
-import socket, json, time, threading, serial
+import socket, json, time, serial
 
 app = Flask(__name__)
 api = Api(app)
