@@ -18,19 +18,18 @@ ser = serial.Serial(
 )
 
 def power_change(data):  
-    ser.close()
-    ser.open()
     for x in range (1, 7):
+        ser.close()
+        ser.open()
         zpwr=data.get('pwr{}'.format(x))
         if zpwr is True:
             ser.write("*Z0{}ON\r".format(x))
-            time.sleep(.7)
+            time.sleep(1)
             ser.write("*Z0{}VOL20\r".format(x))
-            time.sleep(.7)
+            time.sleep(1)
         if zpwr is False:
             ser.write("*Z0{}OFF\r".format(x))
-            time.sleep(.7)
-    ser.close()
+            time.sleep(1)
             
 class status(Resource):
     def status():
