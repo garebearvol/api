@@ -17,8 +17,7 @@ ser = serial.Serial(
     inter_byte_timeout=.1
 )
 
-def power_change(data):
-    ser.open()  
+def power_change(data):  
     for x in range (1, 7):
         zpwr=data.get('pwr{}'.format(x))
         if zpwr is True:
