@@ -27,9 +27,11 @@ def power_change(data):
             response =  ser.readline()
             ser.write("*Z0{}VOL20\r".format(x))
             response =  ser.readline()
+            time.sleep(.5)
         if zpwr is False:
             ser.write("*Z0{}OFF\r".format(x))
             response =  ser.readline()
+            time.sleep(.5)
     ser.close()
             
 class status(Resource):
