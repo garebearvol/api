@@ -7,23 +7,18 @@ import socket, json, time, threading, serial
 app = Flask(__name__)
 api = Api(app)
 
-try:
-   ser = serial.Serial(
-      port='/dev/ttyUSB0',
-      baudrate=9600,
-      parity=serial.PARITY_NONE,
-      stopbits=serial.STOPBITS_ONE,
-      bytesize=serial.EIGHTBITS,
-      timeout=3,
-      inter_byte_timeout=.1
-   )
-except IOError: # if port is already opened, close it and open it again and print message
-  ser.close()
-  ser.open()
-  print ("port was already open, was closed and opened again!")
-
-
+ser = serial.Serial(
+   port='/dev/ttyUSB0',
+   baudrate=9600,
+   parity=serial.PARITY_NONE,
+   stopbits=serial.STOPBITS_ONE,
+   bytesize=serial.EIGHTBITS,
+   timeout=3,
+   inter_byte_timeout=.1
+)
+ser.close()
 def power_change(data):  
+    ser.open()
     for x in range (1, 7):
         zpwr=data.get('pwr{}'.format(x))
         if zpwr is True:
