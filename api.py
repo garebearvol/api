@@ -24,12 +24,12 @@ def power_change(data):
         zpwr=data.get('pwr{}'.format(x))
         if zpwr is True:
             ser.write("*Z0{}ON\r".format(x))
-            time.sleep(1)
+            #time.sleep(1)
             ser.write("*Z0{}VOL20\r".format(x))
-            time.sleep(1)
+            #time.sleep(1)
         if zpwr is False:
             ser.write("*Z0{}OFF\r".format(x))
-            time.sleep(1)
+            #time.sleep(1)
             
 class status(Resource):
     def status():
