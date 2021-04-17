@@ -5,18 +5,22 @@ cwd=os.getcwd()
 with open('{}/status.json'.format(cwd)) as f:
   zonestatus = json.load(f)
 
-#RS-232 global cache info
-HOST2='192.168.1.115'
-PORT2=4999
+ser = serial.Serial(
+   port='/dev/ttyUSB0',
+   baudrate=9600,
+   parity=serial.PARITY_NONE,
+   stopbits=serial.STOPBITS_ONE,
+   bytesize=serial.EIGHTBITS,
+   timeout=3,
+   inter_byte_timeout=.1
+)
 
 def Check_status(Zone):
-    s=socket.socket( socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST2, PORT2))
-    s.sendall("*Z0{}CONSR\r".format(Zone).encode())
+    ser.close()
+    ser.open()
+    ser.write("*Z0{}CONSR\r".format(Zone))
     sleep(3)
-    response=str(s.recv(60))
-    s.close
-    print(response)
+    response=ser.readline()
     if ("Z0{}PWRON".format(Zone) in response):
         zonestatus[f'{Zone}']['pwr']=True
         volresponse=(re.search('VOL-(.*),', response))
